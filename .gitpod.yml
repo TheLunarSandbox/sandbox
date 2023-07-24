@@ -27,6 +27,7 @@ ports:
 tasks:
     - name: Open grafana and policies.yaml
       command: |
+        open ${GITPOD_REPO_ROOT}/README.md
         open ${GITPOD_REPO_ROOT}/policies.yaml
         gp ports await 3000
         gp preview $(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox
