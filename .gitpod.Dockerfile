@@ -1,1 +1,1 @@
-FROM lunarapi/sandbox-gitpod:ezequiel.MK-387
+FROM lunarapi/sandbox-gitpod:latest
