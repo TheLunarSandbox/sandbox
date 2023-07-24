@@ -1,0 +1,15 @@
+{
+    "workbench.startupEditor": "none",
+    "workbench.editorAssociations": {
+        "README.md": "vscode.markdown.preview.editor"
+    },
+    "files.exclude": {},
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "workbench.editor.pinnedTabSizing": "compact",
+    "workbench.sideBar.location": "left",
+    "workbench.activityBar.visible": false,
+    "workbench.statusBar.visible": false,
+    "workbench.editor.showTabs": true,
+    "editor.minimap.autohide": true,
+}
