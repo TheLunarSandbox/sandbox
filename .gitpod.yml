@@ -1,7 +1,5 @@
 image:
   file: .gitpod.Dockerfile
-  args:
-    - SANDBOX_MOD_ARG=${SANDBOX_MOD}
 
 ports:
   - name: Grafana
