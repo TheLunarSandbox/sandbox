@@ -26,7 +26,7 @@ ports:
 tasks:
   - name: Sandbox Terminal
     command: |
-      cp ${GITPOD_REPO_ROOT}/mods/${SANDBOX_MOD} {GITPOD_REPO_ROOT}/policies.yaml
+      cp ${GITPOD_REPO_ROOT}/mods/${SANDBOX_MOD} ${GITPOD_REPO_ROOT}/policies.yaml
       open ${GITPOD_REPO_ROOT}/policies.yaml
       cd /home/gitpod
       POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
