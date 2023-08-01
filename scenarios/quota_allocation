@@ -1,0 +1,29 @@
+---
+global:
+  diagnosis:
+    - name: Metrics Collector
+      enabled: true
+      config:
+        metrics_collector:
+          header_name: X-Tag
+      export: "prometheus"
+
+  remedies:
+    - name: Strategy-Based Throttling
+      enabled: false
+      config:
+        strategy_based_throttling:
+          allowed_request_count: 500
+          window_size_in_seconds: 5
+          response_status_code: 429
+          group_quota_allocation:
+            group_by:
+              header_name: X-Tag
+            groups:
+              - group_header_value: "staging"
+                allocation_percentage: 20
+              - group_header_value: "production"
+                allocation_percentage: 80
+
+exporters:
+  prometheus: {}
