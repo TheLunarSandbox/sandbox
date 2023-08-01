@@ -26,10 +26,10 @@ ports:
 tasks:
   - name: Sandbox Terminal
     command: |
-      cp ${GITPOD_REPO_ROOT}/mods/${SANDBOX_MOD} ${GITPOD_REPO_ROOT}/policies.yaml
+      cp ${GITPOD_REPO_ROOT}/mods/${SANDBOX_SCENARIO} ${GITPOD_REPO_ROOT}/policies.yaml
       open ${GITPOD_REPO_ROOT}/policies.yaml
       cd /home/gitpod
-      SANDBOX_MOD=${SANDBOX_MOD} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
+      SANDBOX_SCENARIO=${SANDBOX_SCENARIO} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
       for i in {1..3}; do curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider:4578", "path": "/rate-limit/exponential-backoff", "method": "GET", "sleep_ms": 20}' http://localhost:7897/traffic; done
       gp ports await 3000
       gp preview $(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox
