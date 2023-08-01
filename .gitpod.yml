@@ -35,6 +35,6 @@ tasks:
 
       if [[ "${SANDBOX_SCENARIO}" == "strategy_based_throttling" ]]; then
         gp preview $(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox
-      else if [[ "${SANDBOX_SCENARIO}" == "quota_allocation" ]]; then
+      elif [[ "${SANDBOX_SCENARIO}" == "quota_allocation" ]]; then
         gp preview $(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox
       fi
