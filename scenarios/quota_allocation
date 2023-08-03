@@ -5,7 +5,7 @@ global:
       enabled: true
       config:
         metrics_collector:
-          header_name: X-Tag
+          header_name: X-Group
       export: "prometheus"
 
   remedies:
@@ -18,7 +18,7 @@ global:
           response_status_code: 429
           group_quota_allocation:
             group_by:
-              header_name: X-Tag
+              header_name: X-Group
             groups:
               - group_header_value: "staging"
                 allocation_percentage: 20
