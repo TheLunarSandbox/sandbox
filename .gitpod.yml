@@ -1,5 +1,4 @@
-image:
-  file: .gitpod.Dockerfile
+image: lunarapi/sandbox-gitpod:lunar-sandbox-v0.0.8
 
 ports:
   - name: Grafana
