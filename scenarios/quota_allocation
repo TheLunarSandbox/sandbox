@@ -5,7 +5,8 @@ global:
       enabled: true
       config:
         metrics_collector:
-          header_name: X-Group
+          request_header_names:
+            - X-Group
       export: "prometheus"
 
   remedies:
