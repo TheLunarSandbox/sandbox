@@ -33,7 +33,9 @@ tasks:
       gp ports await 3000
 
       if [[ "${SANDBOX_SCENARIO}" == "strategy_based_throttling" ]]; then
-        gp preview $(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox
+        gp preview $(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox-strategy-based-throttling
       elif [[ "${SANDBOX_SCENARIO}" == "quota_allocation" ]]; then
-        gp preview $(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox
+        gp preview $(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox-quota-allocation
+      elif [[ "${SANDBOX_SCENARIO}" == "account_orchestration" ]]; then
+        gp preview $(gp url 3000)/d/31d0e9b9-27a7-4ef2-a97b-358e6ba8593d/lunar-sandbox-account-orchestration
       fi

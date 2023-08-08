@@ -1,0 +1,39 @@
+global:
+  diagnosis:
+    - name: Metrics Collector
+      enabled: true
+      config:
+        metrics_collector:
+          request_header_names:
+            - Authorization
+      export: "prometheus"
+
+  remedies:
+    - name: Global API Account Orchestration
+      enabled: false
+      config:
+        account_orchestration:
+          round_robin:
+            - aliceb@comp.io
+            - johnf@comp.io
+            - bobc@comp.io
+
+accounts:
+  aliceb@comp.io:
+    tokens:
+      - header:
+          name: Authorization
+          value: Bearer abc123def456ghi789
+  johnf@comp.io:
+    tokens:
+      - header:
+          name: Authorization
+          value: Bearer jkl321mno654pqr987
+  bobc@comp.io:
+    tokens:
+      - header:
+          name: Authorization
+          value: Bearer uvw123xyz456cde789
+
+exporters:
+  prometheus: {}
