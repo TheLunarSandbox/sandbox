@@ -28,14 +28,19 @@ tasks:
       cp ${GITPOD_REPO_ROOT}/scenarios/${SANDBOX_SCENARIO} ${GITPOD_REPO_ROOT}/policies.yaml
       open ${GITPOD_REPO_ROOT}/policies.yaml
       cd /home/gitpod
-      SANDBOX_SCENARIO=${SANDBOX_SCENARIO} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
-      curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider:4578", "path": "/rate-limit/exponential-backoff", "method": "GET", "sleep_ms": 5}' http://localhost:7897/traffic
-      gp ports await 3000
 
       if [[ "${SANDBOX_SCENARIO}" == "strategy_based_throttling" ]]; then
-        gp preview $(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox-strategy-based-throttling
+        PROVIDER_API_PATH=/rate-limit/exponential-backoff
+        GRAFANA_URL=$(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox-strategy-based-throttling
       elif [[ "${SANDBOX_SCENARIO}" == "quota_allocation" ]]; then
-        gp preview $(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox-quota-allocation
+        PROVIDER_API_PATH=/rate-limit/exponential-backoff
+        GRAFANA_URL=$(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox-quota-allocation
       elif [[ "${SANDBOX_SCENARIO}" == "account_orchestration" ]]; then
-        gp preview $(gp url 3000)/d/31d0e9b9-27a7-4ef2-a97b-358e6ba8593d/lunar-sandbox-account-orchestration
+        PROVIDER_API_PATH=/rate-limit/by-account
+        GRAFANA_URL=$(gp url 3000)/d/31d0e9b9-27a7-4ef2-a97b-358e6ba8593d/lunar-sandbox-account-orchestration
       fi
+
+      SANDBOX_SCENARIO=${SANDBOX_SCENARIO} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
+      curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider:4578", "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": 5}' http://localhost:7897/traffic
+      gp ports await 3000
+      gp preview ${GRAFANA_URL}
