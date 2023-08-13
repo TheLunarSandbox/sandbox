@@ -1,4 +1,4 @@
-image: lunarapi/sandbox-gitpod:lunar-sandbox-v0.0.12
+image: lunarapi/sandbox-gitpod:lunar-sandbox-v0.0.13
 
 ports:
   - name: Grafana
@@ -32,15 +32,22 @@ tasks:
       if [[ "${SANDBOX_SCENARIO}" == "strategy_based_throttling" ]]; then
         PROVIDER_API_PATH=/rate-limit/exponential-backoff
         GRAFANA_URL=$(gp url 3000)/d/d2c76c83-9968-4ef6-a6a5-6105e661f9bf/lunar-sandbox-strategy-based-throttling
+        SLEEP_MS=5
+      elif [[ "${SANDBOX_SCENARIO}" == "response_based_throttling ]]; then
+        PROVIDER_API_PATH=/rate-limit/exponential-backoff
+        GRAFANA_URL=$(gp url 3000)/d/4ffb9ca4-10c2-4050-ba64-4b79edc95cd3/lunar-sandbox-response-based-throttling
+        SLEEP_MS=8
       elif [[ "${SANDBOX_SCENARIO}" == "quota_allocation" ]]; then
         PROVIDER_API_PATH=/rate-limit/exponential-backoff
         GRAFANA_URL=$(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox-quota-allocation
+        SLEEP_MS=5
       elif [[ "${SANDBOX_SCENARIO}" == "account_orchestration" ]]; then
         PROVIDER_API_PATH=/rate-limit/by-account
         GRAFANA_URL=$(gp url 3000)/d/31d0e9b9-27a7-4ef2-a97b-358e6ba8593d/lunar-sandbox-account-orchestration
+        SLEEP_MS=5
       fi
 
       SANDBOX_SCENARIO=${SANDBOX_SCENARIO} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
-      curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider:4578", "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": 5}' http://localhost:7897/traffic
+      curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider:4578", "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${SLEEP_MS}"'}' http://localhost:7897/traffic
       gp ports await 3000
       gp preview ${GRAFANA_URL}
