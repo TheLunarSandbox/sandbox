@@ -1,0 +1,22 @@
+---
+global:
+  diagnosis:
+    - name: Metrics Collector
+      enabled: true
+      config:
+        metrics_collector: {}
+      export: "prometheus"
+
+  remedies:
+    - name: Response-Based Throttling
+      enabled: false
+      config:
+        response_based_throttling:
+          retry_after_header: Retry-After
+          retry_after_type: relative_seconds
+          quota_group: 1
+          relevant_statuses:
+            - 429
+
+exporters:
+  prometheus: {}
