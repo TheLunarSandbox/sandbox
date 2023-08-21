@@ -37,6 +37,10 @@ tasks:
         PROVIDER_API_PATH=/rate-limit/exponential-backoff
         GRAFANA_URL=$(gp url 3000)/d/4ffb9ca4-10c2-4050-ba64-4b79edc95cd3/lunar-sandbox-response-based-throttling
         SLEEP_MS=8
+        export RATE_LIMIT_EXPONENTIAL_BACKOFF_WINDOW="45s"
+        export RATE_LIMIT_EXPONENTIAL_BACKOFF_ALLOWED_REQUESTS=1000
+        export RATE_LIMIT_EXPONENTIAL_BACKOFF_MAX_PUNISHMENTS=5
+        export RATE_LIMIT_EXPONENTIAL_BACKOFF_VIOLATIONS_PER_STEP=1000
       elif [[ "${SANDBOX_SCENARIO}" == "quota_allocation" ]]; then
         PROVIDER_API_PATH=/rate-limit/exponential-backoff
         GRAFANA_URL=$(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox-quota-allocation
