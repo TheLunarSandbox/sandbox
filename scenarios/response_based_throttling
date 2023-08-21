@@ -4,7 +4,13 @@ global:
     - name: Metrics Collector
       enabled: true
       config:
-        metrics_collector: {}
+        metrics_collector:
+          counters:
+            - name_suffix: "Retry-After"
+              payload: "response_headers"
+              key: "Retry-After"
+          response_header_names:
+            - X-Lunar-Generated
       export: "prometheus"
 
   remedies:
