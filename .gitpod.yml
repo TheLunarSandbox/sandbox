@@ -64,5 +64,6 @@ tasks:
       curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider1", "port":4578, "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${SLEEP_MS}"'}' http://localhost:7897/traffic
       if [[ "${SANDBOX_SCENARIO}" == "response_based_throttling" ]]; then
           curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider2", "port":4579, "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${PROVIDER2_SLEEP_MS}"'}' http://localhost:7897/traffic
-      fi      gp ports await 3000
+      fi      
+      gp ports await 3000
       gp preview ${GRAFANA_URL}
