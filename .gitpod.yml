@@ -31,6 +31,7 @@ tasks:
       cp ${GITPOD_REPO_ROOT}/scenarios/${SANDBOX_SCENARIO} ${GITPOD_REPO_ROOT}/policies.yaml
       open ${GITPOD_REPO_ROOT}/policies.yaml
       cd /home/gitpod
+      export LUNAR_PROXY_HOST=lunar-proxy:8080
 
       if [[ "${SANDBOX_SCENARIO}" == "strategy_based_throttling" ]]; then
         PROVIDER_API_PATH=/rate-limit/exponential-backoff
