@@ -1,4 +1,4 @@
-image: lunarapi/sandbox-gitpod:lunar-sandbox-v0.0.13
+image: lunarapi/sandbox-gitpod:v0.2.0
 
 ports:
   - name: Grafana
@@ -15,8 +15,11 @@ ports:
   - name: Prometheus
     port: 9090
     onOpen: ignore
-  - name: Provider
+  - name: Provider1
     port: 4578
+    onOpen: ignore
+  - name: Provider2
+    port: 4579
     onOpen: ignore
   - name: Consumer
     port: 7897
@@ -36,11 +39,17 @@ tasks:
       elif [[ "${SANDBOX_SCENARIO}" == "response_based_throttling" ]]; then
         PROVIDER_API_PATH=/rate-limit/exponential-backoff
         GRAFANA_URL=$(gp url 3000)/d/4ffb9ca4-10c2-4050-ba64-4b79edc95cd3/lunar-sandbox-response-based-throttling
-        SLEEP_MS=8
+        SLEEP_MS=30
         export RATE_LIMIT_EXPONENTIAL_BACKOFF_WINDOW="45s"
         export RATE_LIMIT_EXPONENTIAL_BACKOFF_ALLOWED_REQUESTS=1000
         export RATE_LIMIT_EXPONENTIAL_BACKOFF_MAX_PUNISHMENTS=5
-        export RATE_LIMIT_EXPONENTIAL_BACKOFF_VIOLATIONS_PER_STEP=1000
+        export RATE_LIMIT_EXPONENTIAL_BACKOFF_VIOLATIONS_PER_STEP=200
+
+        PROVIDER2_SLEEP_MS=23
+        export PROVIDER2_RATE_LIMIT_EXPONENTIAL_BACKOFF_WINDOW="60s"
+        export PROVIDER2_RATE_LIMIT_EXPONENTIAL_BACKOFF_ALLOWED_REQUESTS=1500
+        export PROVIDER2_RATE_LIMIT_EXPONENTIAL_BACKOFF_MAX_PUNISHMENTS=5
+        export PROVIDER2_RATE_LIMIT_EXPONENTIAL_BACKOFF_VIOLATIONS_PER_STEP=500
       elif [[ "${SANDBOX_SCENARIO}" == "quota_allocation" ]]; then
         PROVIDER_API_PATH=/rate-limit/exponential-backoff
         GRAFANA_URL=$(gp url 3000)/d/d0820680-9427-487d-ac2e-954318bc6cec/lunar-sandbox-quota-allocation
@@ -52,6 +61,8 @@ tasks:
       fi
 
       SANDBOX_SCENARIO=${SANDBOX_SCENARIO} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
-      curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider:4578", "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${SLEEP_MS}"'}' http://localhost:7897/traffic
-      gp ports await 3000
+      curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider1", "port":4578, "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${SLEEP_MS}"'}' http://localhost:7897/traffic
+      if [[ "${SANDBOX_SCENARIO}" == "response_based_throttling" ]]; then
+          curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider2", "port":4579, "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${PROVIDER2_SLEEP_MS}"'}' http://localhost:7897/traffic
+      fi      gp ports await 3000
       gp preview ${GRAFANA_URL}
