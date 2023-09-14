@@ -14,7 +14,7 @@ global:
       export: "prometheus"
 
   remedies:
-    - name: Response-Based Throttling
+    - name: Global Throttling Management
       enabled: false
       config:
         response_based_throttling:
