@@ -1,4 +1,4 @@
-image: lunarapi/sandbox-gitpod:v0.2.0
+image: lunarapi/sandbox-gitpod:v0.2.3
 
 ports:
   - name: Grafana
