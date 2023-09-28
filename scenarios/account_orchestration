@@ -1,6 +1,6 @@
 global:
   diagnosis:
-    - name: Metrics Collector
+    - name: Metrics Collector - Account Orchestration
       enabled: true
       config:
         metrics_collector:

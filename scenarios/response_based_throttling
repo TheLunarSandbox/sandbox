@@ -1,7 +1,7 @@
 ---
 global:
   diagnosis:
-    - name: Metrics Collector
+    - name: Metrics Collector - Response Based Throttling
       enabled: true
       config:
         metrics_collector:

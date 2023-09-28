@@ -1,7 +1,7 @@
 ---
 global:
   diagnosis:
-    - name: Metrics Collector
+    - name: Metrics Collector - Strategy Based Throttling
       enabled: true
       config:
         metrics_collector: {}
