@@ -24,6 +24,9 @@ ports:
   - name: Consumer
     port: 7897
     onOpen: ignore
+  - name: Fluent-Bit
+    port: 55142
+    onOpen: ignore
 
 tasks:
   - name: Sandbox Terminal
