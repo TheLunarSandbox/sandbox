@@ -24,6 +24,12 @@ ports:
   - name: Consumer
     port: 7897
     onOpen: ignore
+  - name: Fluent-Bit
+    port: 55142
+    onOpen: ignore
+  - name: Everything
+    port: 0-65535
+    onOpen: ignore
 
 tasks:
   - name: Sandbox Terminal
@@ -71,5 +77,4 @@ tasks:
           curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider2", "port":4579, "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${PROVIDER2_SLEEP_MS}"'}' http://localhost:7897/traffic
       fi      
       gp ports await 3000
-      gp ports await 55142
       gp preview ${GRAFANA_URL}
