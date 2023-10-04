@@ -30,6 +30,18 @@ ports:
   - name: Everything
     port: 0-65535
     onOpen: ignore
+  - name: Everything2
+    port: 0-65535
+    onOpen: ignore
+  - name: Everything3
+    port: 0-65535
+    onOpen: ignore
+  - name: Everything4
+    port: 0-65535
+    onOpen: ignore
+  - name: Everything5
+    port: 0-65535
+    onOpen: ignore
 
 tasks:
   - name: Sandbox Terminal
