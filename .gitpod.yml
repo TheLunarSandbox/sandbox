@@ -1,4 +1,4 @@
-image: lunarapi/sandbox-gitpod:v0.2.5
+image: lunarapi/sandbox-gitpod:v0.2.6-dev2
 
 ports:
   - name: Grafana
@@ -23,24 +23,6 @@ ports:
     onOpen: ignore
   - name: Consumer
     port: 7897
-    onOpen: ignore
-  - name: Fluent-Bit
-    port: 55142
-    onOpen: ignore
-  - name: Everything
-    port: 0-65535
-    onOpen: ignore
-  - name: Everything2
-    port: 0-65535
-    onOpen: ignore
-  - name: Everything3
-    port: 0-65535
-    onOpen: ignore
-  - name: Everything4
-    port: 0-65535
-    onOpen: ignore
-  - name: Everything5
-    port: 0-65535
     onOpen: ignore
 
 tasks:
