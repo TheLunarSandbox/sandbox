@@ -1,4 +1,4 @@
-image: lunarapi/sandbox-gitpod:v0.2.4
+image: lunarapi/sandbox-gitpod:v0.2.6
 
 ports:
   - name: Grafana
@@ -28,6 +28,10 @@ ports:
 tasks:
   - name: Sandbox Terminal
     command: |
+      export GIT_USERNAME=$(git config user.name)
+      export GIT_EMAIL=$(git config user.email)
+      export TENANT_NAME=sandbox-${GIT_USERNAME}-${GIT_EMAIL}
+
       cp ${GITPOD_REPO_ROOT}/scenarios/${SANDBOX_SCENARIO} ${GITPOD_REPO_ROOT}/policies.yaml
       open ${GITPOD_REPO_ROOT}/policies.yaml
       cd /home/gitpod
