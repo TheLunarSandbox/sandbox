@@ -1,4 +1,20 @@
+# API Account Orchestration, or Account Load Balancing, improves performance 
+# by spreading API calls across multiple accounts, avoiding bottlenecks, 
+# and enhancing response times for better application performance.
+
 global:
+  remedies:
+    - name: Global API Account Orchestration
+      enabled: false
+      config:
+        account_orchestration:
+          round_robin: # Load Balancing Method
+            - aliceb@comp.io
+            - johnf@comp.io
+            - bobc@comp.io
+
+# The Diagnosis plugin below, exposes Lunar's metrics to Prometheus
+# Which are used by the Grafana's dashboard you see on your right.  
   diagnosis:
     - name: Metrics Collector - Account Orchestration
       enabled: true
@@ -8,22 +24,15 @@ global:
             - Authorization
       export: "prometheus"
 
-  remedies:
-    - name: Global API Account Orchestration
-      enabled: false
-      config:
-        account_orchestration:
-          round_robin:
-            - aliceb@comp.io
-            - johnf@comp.io
-            - bobc@comp.io
+# The accounts section is required for this plugin to work. 
+# It is used to define the accounts that will be used for the account orchestration method. 
 
 accounts:
   aliceb@comp.io:
     tokens:
       - header:
           name: Authorization
-          value: Bearer abc123def456ghi789
+          value: Bearer abc123def456ghi789 # The auth token for this account
   johnf@comp.io:
     tokens:
       - header:

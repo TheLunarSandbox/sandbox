@@ -1,5 +1,40 @@
+# Strategy Based Throttling enforces a policy of API throttling which 
+# involves setting limits and rules on the rate and volume of 
+# API requests made by the client application or system. 
+
+# The purpose is to regulate the frequency and quantity of API calls 
+# to ensure optimal usage, prevent overloading the API provider's
+# and increasing cooldown times, resources, and maintain a reliable and efficient integration.
+
+# When multiple different services or environments are using the same API, 
+# it is often necessary to allocate a different quota to each service or environment. 
+# This can be achieved by grouping requests by a header value 
+# and allocating a different quota to each group.
+
 ---
 global:
+  remedies:
+    - name: Strategy-Based Throttling
+      enabled: false
+      config:
+        strategy_based_throttling:
+          allowed_request_count: 500 # The number of requests allowed within the window size.
+          window_size_in_seconds: 5
+          response_status_code: 429 # The HTTP status code to return when the limit is exceeded.
+          group_quota_allocation:
+            group_by:
+              header_name: X-Group 
+            groups:
+            # The percentage configuration is unique for each header, 
+            # which means you have the flexibility to set one header to 100% 
+            # while assigning a lower value, such as 20%, to another header.
+              - group_header_value: "staging"
+                allocation_percentage: 20
+              - group_header_value: "production"
+                allocation_percentage: 80
+
+# The Diagnosis plugin below, exposes Lunar's metrics to Prometheus
+# Which are used by the Grafana's dashboard you see on your right. 
   diagnosis:
     - name: Metrics Collector - Quota Allocation
       enabled: true
@@ -8,23 +43,6 @@ global:
           request_header_names:
             - X-Group
       export: "prometheus"
-
-  remedies:
-    - name: Strategy-Based Throttling
-      enabled: false
-      config:
-        strategy_based_throttling:
-          allowed_request_count: 500
-          window_size_in_seconds: 5
-          response_status_code: 429
-          group_quota_allocation:
-            group_by:
-              header_name: X-Group
-            groups:
-              - group_header_value: "staging"
-                allocation_percentage: 20
-              - group_header_value: "production"
-                allocation_percentage: 80
 
 exporters:
   prometheus: {}
