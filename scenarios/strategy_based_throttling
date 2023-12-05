@@ -1,24 +1,27 @@
-# Strategy Based Throttling enforces a policy of API throttling which 
-# involves setting limits and rules on the rate and volume of 
-# API requests made by the client application or system. 
+# For hiding the your left file explorer sidebar press
+# Ctrl+B (Windows/Linux), If you're a MacOS user, then it's ⌘+B.
 
-# The purpose is to regulate the frequency and quantity of API calls 
-# to ensure optimal usage, prevent overloading the API provider's 
-# resources, and maintain a reliable and efficient integration.
+# The Problem: Too many API calls causing 429 errors,
+# The Effect: high error rate (429), low throughput of API traffic
+# The Solution: enforcing client-side throttling policy (“response based throttling”)
+# Docs: https://docs.lunar.dev/product-features/remedy-plugins/strategy-based-throttling
 
 ---
 global:
   remedies:
     - name: Strategy-Based Throttling
+      # NOTE: To activate change 'enabled' to true
+      # and then run 'apply_policies' in terminal below to remediate problem
       enabled: false
       config:
         strategy_based_throttling:
-          allowed_request_count: 500 # The number of requests allowed within the window size.
-          window_size_in_seconds: 5 
-          response_status_code: 429 # The HTTP status code to return when the limit is exceeded.
+          allowed_request_count: 500
+          window_size_in_seconds: 5
+          response_status_code: 429
 
-# The Diagnosis plugin below, exposes Lunar's metrics to Prometheus
-# Which are used by the Grafana's dashboard you see on your right.        
+  # NOTE: No need to change anything here
+  # Lunar's Diagnosis plugin expose lunar metrics to
+  # Prometheus and shown in Grafana
   diagnosis:
     - name: Metrics Collector - Strategy Based Throttling
       enabled: true
