@@ -22,7 +22,7 @@ global:
           relevant_statuses:
             - 429
 
-  # NOTE: To need to change anything here
+  # NOTE: No need to change anything here
   # Lunar's Diagnosis plugin expose lunar metrics to
   # Prometheus and shown in Grafana
   diagnosis:

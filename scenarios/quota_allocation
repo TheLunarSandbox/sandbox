@@ -7,7 +7,7 @@
 ---
 global:
   remedies:
-    - name: Strategy-Based Throttling
+    - name: Quota Allocation
       # NOTE: To activate change 'enabled' to true
       # and then run 'apply_policies' in terminal below to remediate problem
       enabled: false
@@ -25,7 +25,7 @@ global:
               - group_header_value: "production"
                 allocation_percentage: 80
 
-  # NOTE: To need to change anything here
+  # NOTE: No need to change anything here
   # Lunar's Diagnosis plugin expose lunar metrics to
   # Prometheus and shown in Grafana
   diagnosis:

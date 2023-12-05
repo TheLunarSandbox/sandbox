@@ -19,7 +19,7 @@ global:
           window_size_in_seconds: 5
           response_status_code: 429
 
-  # NOTE: To need to change anything here
+  # NOTE: No need to change anything here
   # Lunar's Diagnosis plugin expose lunar metrics to
   # Prometheus and shown in Grafana
   diagnosis:
