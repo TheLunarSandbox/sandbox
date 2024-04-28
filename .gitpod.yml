@@ -1,4 +1,4 @@
-image: lunarapi/sandbox-gitpod:v0.2.8
+image: lunarapi/sandbox-gitpod:v0.2.9
 
 ports:
   - name: Grafana
@@ -10,7 +10,10 @@ ports:
     port: 8040
     onOpen: ignore
   - name: Lunar Proxy
-    port: 8080
+    port: 8000
+    onOpen: ignore
+  - name: Lunar Proxy Handshake
+    port: 8081
     onOpen: ignore
   - name: Prometheus
     port: 9090
@@ -66,7 +69,7 @@ tasks:
         SLEEP_MS=5
       fi
 
-      SANDBOX_SCENARIO=${SANDBOX_SCENARIO} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
+      LUNAR_API_KEY=${LUNAR_API_KEY} SANDBOX_SCENARIO=${SANDBOX_SCENARIO} POLICIES_DIR=${GITPOD_REPO_ROOT} docker compose --project-name sandbox up -d --wait --wait-timeout 60
       curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider1", "port":4578, "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${SLEEP_MS}"'}' http://localhost:7897/traffic
       if [[ "${SANDBOX_SCENARIO}" == "response_based_throttling" ]]; then
           curl --silent --output /dev/null -H "Content-Type: application/json" -d '{"scheme": "http", "host": "provider2", "port":4579, "path": "'${PROVIDER_API_PATH}'", "method": "GET", "sleep_ms": '"${PROVIDER2_SLEEP_MS}"'}' http://localhost:7897/traffic
