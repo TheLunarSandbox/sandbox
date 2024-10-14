@@ -55,4 +55,4 @@ flow:
       to:
         stream:
           name: globalStream
-          at: start
+          at: end
