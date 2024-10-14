@@ -1,0 +1,58 @@
+name: RateLimitFlow
+
+
+filter:
+  url: httpbin.org/*
+
+processors:
+  Limiter:
+    processor: Limiter
+    parameters:
+      - key: quota_id
+        value: MyLimitResource
+
+  GenerateResponseTooManyRequests:
+    processor: GenerateResponse
+    parameters:
+      - key: status
+        value: 429
+      - key: body
+        value: Too many requests
+      - key: Content-Type
+        value: text/plain
+
+flow:
+  request:
+    - from:
+        stream:
+          name: globalStream
+          at: start
+      to:
+        processor:
+          name: Limiter
+
+    - from:
+        processor:
+          name: Limiter
+          condition: below_limit
+      to:
+        stream:
+          name: globalStream
+          at: end
+
+    - from:
+        processor:
+          name: Limiter
+          condition: above_limit
+      to:
+        processor: 
+          name: GenerateResponseTooManyRequests
+
+  response:
+    - from:
+        processor:
+          name: GenerateResponseTooManyRequests
+      to:
+        stream:
+          name: globalStream
+          at: start

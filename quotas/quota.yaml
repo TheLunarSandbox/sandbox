@@ -1,0 +1,9 @@
+quota:
+  id: MyLimitResource
+  filter:
+    url: httpbin.org/*
+  strategy:
+    fixed_window:
+      max: 1
+      interval: 10
+      interval_unit: second
