@@ -37,8 +37,6 @@ tasks:
       export SANDBOX_SCENARIO=${SANDBOX_SCENARIO}
 
       cp ${GITPOD_REPO_ROOT}/scenarios/${SANDBOX_SCENARIO} ${GITPOD_REPO_ROOT}/policies.yaml
-      cp -r ${GITPOD_REPO_ROOT}/flows ${GITPOD_REPO_ROOT}/flows
-      cp -r ${GITPOD_REPO_ROOT}/quotas ${GITPOD_REPO_ROOT}/quotas
       open ${GITPOD_REPO_ROOT}/policies.yaml
       cd /home/gitpod
       export LUNAR_PROXY_HOST=lunar-proxy:8000
